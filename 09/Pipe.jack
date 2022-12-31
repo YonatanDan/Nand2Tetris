@@ -55,7 +55,7 @@ class Pipe {
         let xPosition = xPosition - velocity;
         // check if out of screen (left)
         if (xPosition < (-50)) {
-            let playerPassed = true;
+            let playerPassed = false;
             let xPosition = 514
             let yPosition = 80 + Random.randRange(114);
         }
@@ -92,9 +92,5 @@ class Pipe {
             }       
         }
         return 0;
-    }
-
-    method void reset() {
-        let playerPassed = false;
     }
 }

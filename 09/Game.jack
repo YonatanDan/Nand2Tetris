@@ -1,5 +1,5 @@
 class Game {
-    field int speed;
+    field int frameRate;
     // game objects
     field Bird bird; 
     field Pipe pipe1;
@@ -19,7 +19,7 @@ class Game {
 
     constructor Game new(int delay) {
         // constructs objects
-        let speed = delay;
+        let frameRate = delay;
         let tick = 0;
         let bird = Bird.new(8,128);
         do Pipe.initStatics(2, 50);
@@ -31,6 +31,7 @@ class Game {
         let quit = false;
         let reset = false;
         // handle player instructions
+        // TODO: check if can be implemented better
         let instructions = String.new(30);
         let instructions = "Use Spacebar To Jump";
         return this;
@@ -61,6 +62,8 @@ class Game {
                 do Random.setSeed(tick);
                 do Output.moveCursor(100, 10);
                 do Output.printString("                 "); // clears previous message
+                do Output.moveCursor(100, 100);
+                do Output.printString("                         "); // clears previous message
             }
             let prevKey = currentKey;
             return; 
@@ -103,7 +106,26 @@ class Game {
     }
 
     method boolean run() {
-        // init all vars
+        // initializes fields
+        let currentKey = 0;
+        let prevKey = 0;
+        let hasStarted = false;
+        let reset = false;
+        let quit = false;
+        let tick = 0
+        // draw first messages for the player
+        do Output.moveCursor(100, 100);
+        do Output.printString("Flappy Bird by Yonatan & Ron");
+        // run game
+        while (~reset) {
+            // game logic and graphics
+            do handleInput();
+            do logicTick();
+            do graphicsTick();
+            // delay
+            do Sys.wait(frameRate);            
+        }
+        return false;
     }
 
     
