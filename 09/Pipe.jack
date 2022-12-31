@@ -1,0 +1,100 @@
+class Pipe {
+    // statics
+    static int velocity;
+    static int margin;
+    // fields
+    field int xPosition;
+    field int yPosition;
+    field boolean playerPassed;
+
+    constructor Pipe new(int x, int y) {
+        let xPosition = x;
+        let yPosition = y;
+        let playerPassed = false;
+        return this;
+    }
+
+    function void initStatics(int vel, int marg) {
+        let velocity = vel;
+        let margin = marg;
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void drawFrame() {
+       Screen.setColor(true);
+       // head bottom
+       do Screen.drawRectangle(Math.min(Math.max(xPosition-2,0),511), yPosition+30, Math.min(Math.max(xPosition+44,0),511), yPosition+55);
+       // body bottom
+       do Screen.drawRectangle(Math.min(Math.max(xPosition,0),511), yPosition+54, Math.min(Math.max(xPosition+43,0),511), 255);
+       // head top
+       do Screen.drawRectangle(Math.min(Math.max(xPosition-2,0),511), yPosition+(-margin), Math.min(Math.max(xPosition+45,0),511), yPosition+(-(margin+24)));
+       // body top
+       do Screen.drawRectangle(Math.min(Math.max(xPosition,0),511), 0, Math.min(Math.max(xPosition+43,0),511), yPosition+(-(margin+25)));
+
+       // clear last frame
+       do Screen.setColor(false);
+       // bottom
+       do Screen.drawRectangle(Math.min(Math.max(xPosition,0),511), yPosition+32, Math.min(Math.max(xPosition+(1+xVel),0),511), yPosition+53);       // clside
+       do Screen.drawRectangle(Math.min(Math.max(xPosition+46,0),511), yPosition+30, Math.min(Math.max(xPosition+(48+xVel),0),511), yPosition+55);   // crside
+       do Screen.drawRectangle(Math.min(Math.max(xPosition+2,0),511), yPosition+56, Math.min(Math.max(xPosition+(4+xVel),0),511), 255);         // clwall
+       do Screen.drawRectangle(Math.min(Math.max(xPosition+44,0),511), yPosition+56, Math.min(Math.max(xPosition+(46+xVel),0),511), 255);       // crwall
+       // top
+       do Screen.drawRectangle(Math.min(Math.max(xPosition,0),511), yPosition+(-(margin+23)), Math.min(Math.max(xPosition+1,0),511), yPosition+(-(margin+1)));     // clside
+       do Screen.drawRectangle(Math.min(Math.max(xPosition+46,0),511), yPosition+(-(margin+25)), Math.min(Math.max(xPosition+47,0),511), 1+(yPosition+(-margin))); // crside
+       do Screen.drawRectangle(Math.min(Math.max(xPosition+2,0),511), 0, Math.min(Math.max(xPosition+3,0),511), yPosition+(-(margin+26)));                  // clwall
+       do Screen.drawRectangle(Math.min(Math.max(xPosition+44,0),511), 0, Math.min(Math.max(xPosition+45,0),511), yPosition+(-(margin+25)));                // crwall
+       return; 
+    }
+
+    method void tick() {
+        let xPosition = xPosition - velocity;
+        // check if out of screen (left)
+        if (xPosition < (-50)) {
+            let playerPassed = true;
+            let xPosition = 514
+            let yPosition = 80 + Random.randRange(114);
+        }
+        // check if out of screen (right)
+        if (xPosition > 614) {
+            let yPosition = 80 + Random.randRange(114);
+        }
+        do drawFrame();
+        return;
+    }
+
+    // getters
+    method int getX() {
+        return xPosition;
+    }
+
+    method int getY() {
+        return yPosition;
+    }
+
+    method boolean getPlayerPassed() {
+        return playerPassed;
+    }
+
+    // returns true iff player is in this pipe's boundary
+    method int isCollidingWithPlayer(int playerX, int playerY) {
+        if ((playerX > (xPosition - 32)) & (playerX < (xPosition + 40))) {
+            if ((playerY > yPosition) | (playerY < (yPosition - (margin + 6)))) { 
+                return 2; // collision
+            }
+            if (~playerPassed) {
+                let playerPassed = true;
+                return 1; 
+            }       
+        }
+        return 0;
+    }
+
+    method void reset() {
+        let playerPassed = false;
+    }
+}

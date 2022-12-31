@@ -1,0 +1,99 @@
+class Bird {
+    field int xPosition;
+    field int yPosition;
+    field int position;
+    field int downForce;
+    field int animationFrame;
+    field int tick;
+    field int gravity;
+    
+    constructor Bird new(int x, int y) {
+        do reset(x, y);  
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void jump() {
+        let downForce = -4;
+        if (gravity == 0) {
+            let gravity = 1;
+        }
+        return;
+    }
+
+    method void tick() {
+        // update animation frame and downForce
+        let tick = tick + 1;
+        if (tick = 5) {
+            let tick = 0;
+            let animationFrame = animationFrame + 1;
+            if (downForce < 6) {
+                let downForce = downForce + 1;
+            }
+            if (animationFrame = 4) {
+                let animationFrame = 0;
+            }
+        }
+        // handle gravity
+        if (gravity = 1) {
+            if (downForce > 0) {
+                if (yPosition < (221 - downForce)) {
+                    let yPosition = yPosition + downForce;
+                    let position = position + (yPosition * 32);
+                }
+            } else {
+                if (yPosition > -downForce) {
+                    let yPosition = yPosition + downForce;
+                    let position = position + (yPosition * 32);
+                } else {
+                    let downForce = 0;
+                }
+            }
+        }
+        do draw();
+        return;
+    }
+
+    method void draw() {
+        if (animationFrame = 0) {
+            do SpriteCollection.draw_bird1(position);
+        } else {
+            if (animationFrame = 1) {
+               SpriteCollection.draw_bird2(position); 
+            } else {
+                if (animationFrame = 2) {
+                    SpriteCollection.draw_bird3(position);
+                } else {
+                    if (animationFrame = 3) {
+                        SpriteCollection.draw_bird2(position);
+                    }
+                }
+            }
+        }
+        return;
+    }
+
+    method void reset(int x, int y) {
+        let xPosition = x * 16;
+        let yPosition = y;
+        let downForce = 0;
+        let position = (x + (32 * yPosition));
+        let animationFrame = 0;
+        let tick = 0;
+        let gravity = 0;
+        return;  
+    }
+
+    // getters
+    method int getXPosition() {
+        return xPosition;
+    }
+
+    method int getYPosition() {
+        return yPosition;
+    }
+}
