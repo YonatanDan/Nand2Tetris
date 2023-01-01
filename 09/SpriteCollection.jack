@@ -1,6 +1,7 @@
 class SpriteCollection {
     
     function void draw_bird1(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -22,6 +23,7 @@ class SpriteCollection {
     }
     
     function void draw_bird2(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -43,6 +45,7 @@ class SpriteCollection {
     }
     
     function void draw_bird3(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -64,6 +67,7 @@ class SpriteCollection {
     }
     
     function void draw_digit1(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -85,6 +89,7 @@ class SpriteCollection {
     }
     
     function void draw_digit2(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -106,6 +111,7 @@ class SpriteCollection {
     }
     
     function void draw_digit3(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -127,6 +133,7 @@ class SpriteCollection {
     }
     
     function void draw_digit4(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -168,6 +175,7 @@ class SpriteCollection {
         return;
     }
     function void draw_digit6(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -189,6 +197,7 @@ class SpriteCollection {
     }
     
     function void draw_digit7(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -210,6 +219,7 @@ class SpriteCollection {
     }
     
     function void draw_digit8(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -231,6 +241,7 @@ class SpriteCollection {
     }
     
     function void draw_digit9(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);
@@ -252,6 +263,7 @@ class SpriteCollection {
     }
 
     function void draw_digit0(int location) {
+        var int memAddress;
         let memAddress = 16384+location;
         do Memory.poke(memAddress+0, 0);
         do Memory.poke(memAddress+32, 0);

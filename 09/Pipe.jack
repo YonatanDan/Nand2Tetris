@@ -39,10 +39,10 @@ class Pipe {
        // clear last frame
        do Screen.setColor(false);
        // bottom
-       do Screen.drawRectangle(Math.min(Math.max(xPosition,0),511), yPosition+32, Math.min(Math.max(xPosition+(1+xVel),0),511), yPosition+53);       // clside
-       do Screen.drawRectangle(Math.min(Math.max(xPosition+46,0),511), yPosition+30, Math.min(Math.max(xPosition+(48+xVel),0),511), yPosition+55);   // crside
-       do Screen.drawRectangle(Math.min(Math.max(xPosition+2,0),511), yPosition+56, Math.min(Math.max(xPosition+(4+xVel),0),511), 255);         // clwall
-       do Screen.drawRectangle(Math.min(Math.max(xPosition+44,0),511), yPosition+56, Math.min(Math.max(xPosition+(46+xVel),0),511), 255);       // crwall
+       do Screen.drawRectangle(Math.min(Math.max(xPosition,0),511), yPosition+32, Math.min(Math.max(xPosition+(1+velocity),0),511), yPosition+53);       // clside
+       do Screen.drawRectangle(Math.min(Math.max(xPosition+46,0),511), yPosition+30, Math.min(Math.max(xPosition+(48+velocity),0),511), yPosition+55);   // crside
+       do Screen.drawRectangle(Math.min(Math.max(xPosition+2,0),511), yPosition+56, Math.min(Math.max(xPosition+(4+velocity),0),511), 255);         // clwall
+       do Screen.drawRectangle(Math.min(Math.max(xPosition+44,0),511), yPosition+56, Math.min(Math.max(xPosition+(46+velocity),0),511), 255);       // crwall
        // top
        do Screen.drawRectangle(Math.min(Math.max(xPosition,0),511), yPosition+(-(margin+23)), Math.min(Math.max(xPosition+1,0),511), yPosition+(-(margin+1)));     // clside
        do Screen.drawRectangle(Math.min(Math.max(xPosition+46,0),511), yPosition+(-(margin+25)), Math.min(Math.max(xPosition+47,0),511), 1+(yPosition+(-margin))); // crside
@@ -56,7 +56,7 @@ class Pipe {
         // check if out of screen (left)
         if (xPosition < (-50)) {
             let playerPassed = false;
-            let xPosition = 514
+            let xPosition = 514;
             let yPosition = 80 + Random.randRange(114);
         }
         // check if out of screen (right)
