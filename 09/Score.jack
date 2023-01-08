@@ -1,0 +1,36 @@
+class Score {
+    field int score;
+    field String display;
+    field String title;
+
+    constructor Score new() {
+        let display = String.new(10);
+        let title = String.new(8);
+        let title = "Score: ";
+        let score = 0;
+        do display.setInt(score); // initializes score to 0
+        return this;
+    }
+
+    method void dispose() {
+        do display.dispose();
+        do title.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    // tick is called every frame
+    method void tick() {
+        do Output.moveCursor(22, 0);
+        do Output.printString(title);
+        do Output.moveCursor(22, 6);
+        do display.setInt(score);
+        do Output.printString(display);
+        return; 
+    }
+
+    method void incrementScore() {
+        let score = score + 1;
+        return;
+    }
+}

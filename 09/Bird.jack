@@ -19,7 +19,7 @@ class Bird {
 
     method void jump() {
         let downForce = -4;
-        if (gravity == 0) {
+        if (gravity = 0) {
             let gravity = 1;
         }
         return;
@@ -29,8 +29,8 @@ class Bird {
         // update animation frame and downForce
         let tick = tick + 1;
         if (tick = 5) {
-            let tick = 0;
             let animationFrame = animationFrame + 1;
+            let tick = 0;
             if (downForce < 6) {
                 let downForce = downForce + 1;
             }
@@ -43,12 +43,12 @@ class Bird {
             if (downForce > 0) {
                 if (yPosition < (221 - downForce)) {
                     let yPosition = yPosition + downForce;
-                    let position = position + (yPosition * 32);
+                    let position = position + (downForce * 32);
                 }
             } else {
                 if (yPosition > -downForce) {
                     let yPosition = yPosition + downForce;
-                    let position = position + (yPosition * 32);
+                    let position = position + (downForce * 32);
                 } else {
                     let downForce = 0;
                 }
@@ -63,13 +63,13 @@ class Bird {
             do SpriteCollection.draw_bird1(position);
         } else {
             if (animationFrame = 1) {
-               SpriteCollection.draw_bird2(position); 
+                do SpriteCollection.draw_bird2(position); 
             } else {
                 if (animationFrame = 2) {
-                    SpriteCollection.draw_bird3(position);
+                    do SpriteCollection.draw_bird3(position);
                 } else {
                     if (animationFrame = 3) {
-                        SpriteCollection.draw_bird2(position);
+                        do SpriteCollection.draw_bird2(position);
                     }
                 }
             }

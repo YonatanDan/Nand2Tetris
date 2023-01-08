@@ -3,7 +3,7 @@ push argument 0
 pop static 0
 push constant 0
 return
-function Random.rand 0
+function Random.random 0
 push static 0
 push constant 20251
 add
@@ -23,7 +23,7 @@ pop static 0
 label IF_FALSE0
 push static 0
 return
-function Random.randRange 2
+function Random.randomInRange 2
 push constant 1
 pop local 0
 label WHILE_EXP0
@@ -40,7 +40,7 @@ add
 pop local 0
 goto WHILE_EXP0
 label WHILE_END0
-call Random.rand 0
+call Random.random 0
 push local 0
 and
 pop local 1
@@ -50,7 +50,7 @@ push argument 0
 gt
 not
 if-goto WHILE_END1
-call Random.rand 0
+call Random.random 0
 push local 0
 and
 pop local 1

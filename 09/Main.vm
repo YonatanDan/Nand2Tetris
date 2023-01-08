@@ -1,5 +1,5 @@
 function Main.main 2
-push constant 2
+push constant 10
 call Game.new 1
 pop local 0
 push constant 0

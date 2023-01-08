@@ -5,13 +5,14 @@ class Game {
     field Pipe pipe1;
     field Pipe pipe2;
     field Pipe pipe3;
-    // TODO : add score object
+    field Score score;
     // controls
     field char currentKey;
     field char prevKey;
     // game states
     field boolean hasStarted;
-    field boolean reset;
+    field boolean restart;
+    field boolean gameOver;
     field boolean quit;
     // player instructions
     field String instructions; 
@@ -26,12 +27,12 @@ class Game {
         let pipe1 = Pipe.new(614 + ((560 / 3) * 0), 128);
         let pipe2 = Pipe.new(614 + ((560 / 3) * 1), 128);
         let pipe3 = Pipe.new(614 + ((560 / 3) * 2), 128);
-        // TODO init score
+        let score = Score.new();
         let hasStarted = false;
         let quit = false;
-        let reset = false;
+        let restart = false;
+        let gameOver = false;
         // handle player instructions
-        // TODO: check if can be implemented better
         let instructions = String.new(30);
         let instructions = "Use Spacebar To Jump";
         return this;
@@ -43,7 +44,7 @@ class Game {
         do pipe1.dispose();
         do pipe2.dispose();
         do pipe3.dispose();
-        // do score.dispose();
+        do score.dispose();
         do instructions.dispose();
         do Memory.deAlloc(this);
         return;
@@ -51,58 +52,58 @@ class Game {
 
     method void handleInput() {
         let currentKey = Keyboard.keyPressed();
-        if (currentKey = 81) { // currentKey = 'Q'
+        if (gameOver & (currentKey = 81)) { // currentKey = 'Q'
             let quit = true;
-        } 
-        if ((currentKey = 32) & (~(prevKey = 32))) { // currentKey = spacebar
+        }
+        if (gameOver & (currentKey = 82)) { // currentKey = 'R'
+            let restart = true;
+        }
+        if ((~gameOver) & (currentKey = 32) & (~(prevKey = 32))) { // currentKey = spacebar 
             do bird.jump();
             if (~hasStarted) {
                 // game is starting
                 let hasStarted = true;
                 do Random.setSeed(tick);
-                do Output.moveCursor(100, 10);
-                do Output.printString("                 "); // clears previous message
-                do Output.moveCursor(100, 100);
+                do Output.moveCursor(2, 15);
+                do Output.printString("                               "); // clears previous message
+                do Output.moveCursor(20, 18);
                 do Output.printString("                         "); // clears previous message
             }
-            let prevKey = currentKey;
-            return; 
         }
+        let prevKey = currentKey; 
+        return;
     }
 
     method void handlePipeCollision(int state) {
         if (state = 2) { // collision
-            let reset = true;
+            let gameOver = true;
         } else {
             if (state = 1) {
-                // do score.inc();
+                do score.incrementScore();
             }
         }
         return;
     }
 
     // tick is called every frame
-    method void logicTick() {
+    method void tick() {
         do bird.tick();
         if (hasStarted) {
+            do score.tick();
             do pipe1.tick();
             do pipe2.tick();
             do pipe3.tick();
-            // do score.tick();
             // check for pipe collisions
             do handlePipeCollision(pipe1.isCollidingWithPlayer(bird.getXPosition(), bird.getYPosition()));
             do handlePipeCollision(pipe2.isCollidingWithPlayer(bird.getXPosition(), bird.getYPosition()));
             do handlePipeCollision(pipe3.isCollidingWithPlayer(bird.getXPosition(), bird.getYPosition()));
         }
-        return;
-    }
-
-    method void graphicsTick() {
         let tick = tick + 1;
-        do Output.moveCursor(100, 10);
+        do Output.moveCursor(20, 18);
         if (~hasStarted) {
             do Output.printString(instructions);
         }
+        return;
     }
 
     method boolean run() {
@@ -110,28 +111,51 @@ class Game {
         let currentKey = 0;
         let prevKey = 0;
         let hasStarted = false;
-        let reset = false;
+        let gameOver = false;
+        let restart = false;
         let quit = false;
-        let tick = 0
+        let tick = 0;
         // draw first messages for the player
-        do Output.moveCursor(100, 100);
+        do Output.moveCursor(2, 15);
         do Output.printString("Flappy Bird by Yonatan & Ron");
         // run game
-        while (~reset) {
+        while (~gameOver) {
             // game logic and graphics
             do handleInput();
-            do logicTick();
-            do graphicsTick();
-            // delay
-            do Sys.wait(frameRate);            
+            do tick();
+            // wait for framerate
+            do Sys.wait(frameRate);        
+        }
+        do Output.moveCursor(2, 8);
+        do Output.printString("Game Over, press 'Q' to quit or 'R' to restart");
+        while ((~quit) & (~restart)) {
+            do handleInput();
+            do Sys.wait(frameRate);
+        }
+        if (quit) { // player pressed Q to quit
+            return false;
+        } else { // player pressed R to restart
+            do restartGame();
+            do run();
         }
         return false;
     }
 
-    
-
-
-
-
-
+    method void restartGame() {
+        // disposes last game objects
+        do Screen.clearScreen();
+        do bird.dispose();
+        do pipe1.dispose();
+        do pipe2.dispose();
+        do pipe3.dispose();
+        do score.dispose();
+        // creates new object for next game
+        let bird = Bird.new(8,128);
+        do Pipe.initStatics(2, 50);
+        let pipe1 = Pipe.new(614 + ((560 / 3) * 0), 128);
+        let pipe2 = Pipe.new(614 + ((560 / 3) * 1), 128);
+        let pipe3 = Pipe.new(614 + ((560 / 3) * 2), 128);
+        let score = Score.new();
+        return;
+    }
 }

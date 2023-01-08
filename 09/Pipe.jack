@@ -26,29 +26,23 @@ class Pipe {
     }
 
     method void drawFrame() {
-       Screen.setColor(true);
-       // head bottom
-       do Screen.drawRectangle(Math.min(Math.max(xPosition-2,0),511), yPosition+30, Math.min(Math.max(xPosition+44,0),511), yPosition+55);
-       // body bottom
-       do Screen.drawRectangle(Math.min(Math.max(xPosition,0),511), yPosition+54, Math.min(Math.max(xPosition+43,0),511), 255);
-       // head top
-       do Screen.drawRectangle(Math.min(Math.max(xPosition-2,0),511), yPosition+(-margin), Math.min(Math.max(xPosition+45,0),511), yPosition+(-(margin+24)));
-       // body top
-       do Screen.drawRectangle(Math.min(Math.max(xPosition,0),511), 0, Math.min(Math.max(xPosition+43,0),511), yPosition+(-(margin+25)));
-
-       // clear last frame
-       do Screen.setColor(false);
-       // bottom
-       do Screen.drawRectangle(Math.min(Math.max(xPosition,0),511), yPosition+32, Math.min(Math.max(xPosition+(1+velocity),0),511), yPosition+53);       // clside
-       do Screen.drawRectangle(Math.min(Math.max(xPosition+46,0),511), yPosition+30, Math.min(Math.max(xPosition+(48+velocity),0),511), yPosition+55);   // crside
-       do Screen.drawRectangle(Math.min(Math.max(xPosition+2,0),511), yPosition+56, Math.min(Math.max(xPosition+(4+velocity),0),511), 255);         // clwall
-       do Screen.drawRectangle(Math.min(Math.max(xPosition+44,0),511), yPosition+56, Math.min(Math.max(xPosition+(46+velocity),0),511), 255);       // crwall
-       // top
-       do Screen.drawRectangle(Math.min(Math.max(xPosition,0),511), yPosition+(-(margin+23)), Math.min(Math.max(xPosition+1,0),511), yPosition+(-(margin+1)));     // clside
-       do Screen.drawRectangle(Math.min(Math.max(xPosition+46,0),511), yPosition+(-(margin+25)), Math.min(Math.max(xPosition+47,0),511), 1+(yPosition+(-margin))); // crside
-       do Screen.drawRectangle(Math.min(Math.max(xPosition+2,0),511), 0, Math.min(Math.max(xPosition+3,0),511), yPosition+(-(margin+26)));                  // clwall
-       do Screen.drawRectangle(Math.min(Math.max(xPosition+44,0),511), 0, Math.min(Math.max(xPosition+45,0),511), yPosition+(-(margin+25)));                // crwall
-       return; 
+        // *** DRAW CURRENT FRAME ***
+        do Screen.setColor(true);
+        // lower pipe
+        do Screen.drawRectangle(Math.min(Math.max(xPosition - 2,0), 511), yPosition + 30, Math.min(Math.max(xPosition+44, 0), 511), yPosition + 55);  
+        do Screen.drawRectangle(Math.min(Math.max(xPosition, 0), 511), yPosition + 54, Math.min(Math.max(xPosition + 43, 0), 511), 255);         
+        // upper pipe
+        do Screen.drawRectangle(Math.min(Math.max(xPosition - 2, 0), 511), yPosition - (margin + 24), Math.min(Math.max(xPosition + 45, 0), 511), yPosition - margin); 
+        do Screen.drawRectangle(Math.min(Math.max(xPosition, 0), 511), 0, Math.min(Math.max(xPosition + 43, 0), 511), yPosition - (margin+25)); 
+        // *** ERASE LAST FRAME ***
+        do Screen.setColor(false);
+        // lower pipe
+        do Screen.drawRectangle(Math.min(Math.max(xPosition + 46, 0), 511), yPosition + 30, Math.min(Math.max(xPosition + (48 + velocity), 0), 511), yPosition + 55);
+        do Screen.drawRectangle(Math.min(Math.max(xPosition + 44, 0), 511), yPosition + 56, Math.min(Math.max(xPosition + (46 + velocity), 0), 511), 255);
+        // upper pipe
+        do Screen.drawRectangle(Math.min(Math.max(xPosition + 46, 0), 511), yPosition - (margin + 25), Math.min(Math.max(xPosition + 47, 0), 511), yPosition - margin + 1);
+        do Screen.drawRectangle(Math.min(Math.max(xPosition + 44, 0), 511), 0, Math.min(Math.max(xPosition + 45, 0), 511), yPosition - (margin + 25));
+        return;
     }
 
     method void tick() {
@@ -57,11 +51,11 @@ class Pipe {
         if (xPosition < (-50)) {
             let playerPassed = false;
             let xPosition = 514;
-            let yPosition = 80 + Random.randRange(114);
+            let yPosition = 80 + Random.randomInRange(114);
         }
         // check if out of screen (right)
         if (xPosition > 614) {
-            let yPosition = 80 + Random.randRange(114);
+            let yPosition = 80 + Random.randomInRange(114);
         }
         do drawFrame();
         return;
