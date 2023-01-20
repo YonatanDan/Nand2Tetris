@@ -1,8 +1,8 @@
-import Tokenizer
+import JackTokenizer
 
 class CompilationEngine:
     def __init__(self, input_path, output_path):
-        self.input_file = Tokenizer.JackTokenizer(input_path)
+        self.input_file = JackTokenizer.JackTokenizer(input_path)
         self.output_file = open(output_path, 'w')
         self.current_indent = ""
     
