@@ -12,8 +12,8 @@ class CompilationEngine:
 
         self.output_file = open(output_path, 'w')
         self.current_indent = ""
-        self.binary_ops_dict = {'+': 'add', '-': 'sub', '*': 'Math.multiply', '/': 'Math.divide', '&': 'and', '|': 'or',
-            '=': 'eq', '<': 'lt', '>': 'gt'}
+        self.binary_ops_dict = {'+': 'add', '-': 'sub', '*': 'Math.multiply', '/': 'Math.divide', '&amp;': 'and', '|': 'or',
+            '=': 'eq', '&lt;': 'lt', '&gt;': 'gt'}
   
     # compiles a compelete class
     def compile_class(self):
@@ -236,7 +236,7 @@ class CompilationEngine:
     def compile_do(self):
         self.pop_next_token() # 'do'
         # call #
-        call, caller_name, callee_name = '', '', ''
+        caller_name, callee_name, call = '', '', ''
         locals_num = 0
         caller_name = self.pop_next_token()[0]  # class/subroutine/var name
         if self.is_next_token_of_value("."):
@@ -244,7 +244,6 @@ class CompilationEngine:
             callee_name = self.pop_next_token()[0]  # subroutine name
             if caller_name in self.symbol_table.current_scope or caller_name in self.symbol_table.class_scope:
                 self.direct_push_command(caller_name)
-                self.vm_writer.writePush(caller_name, callee_name)
                 call = self.symbol_table.type_of(caller_name) + '.' + callee_name
                 locals_num += 1
             else:
@@ -258,6 +257,7 @@ class CompilationEngine:
         self.vm_writer.writeCall(call, locals_num)
         self.pop_next_token()  # get ')' symbol        
         # end of call #
+        self.vm_writer.writePop('temp', 0)
         self.pop_next_token() # ';'
     
     def direct_push_command(self, name):
