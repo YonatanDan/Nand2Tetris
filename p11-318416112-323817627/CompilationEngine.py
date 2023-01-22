@@ -175,7 +175,7 @@ class CompilationEngine:
         if array:
             self.vm_writer.writePop('temp', 0)
             self.vm_writer.writePop('pointer', 1)
-            self.vm_writer.writePop('temp', 0)
+            self.vm_writer.writePush('temp', 0)
             self.vm_writer.writePop('that', 0)
         else: # pop var
             if name in self.symbol_table.current_scope:
