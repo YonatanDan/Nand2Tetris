@@ -4,6 +4,7 @@ import SymbolTable
 
 class CompilationEngine:
     def __init__(self, input_path, output_path):
+        # constructs the neccesey modules for compiling a file
         self.tokenizer = JackTokenizer.JackTokenizer(input_path)
         self.vm_writer = VMWriter.VMWriter(output_path)
         self.symbol_table = SymbolTable.SymbolTable()
